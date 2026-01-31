@@ -328,13 +328,12 @@ bool NetworkOptimizer::DisableNagleAlgorithm() {
 bool NetworkOptimizer::OptimizeMTU() {
     Utils::PrintInfo("Optimizing MTU...");
     
-    DWORD mtu = 1500;
     bool success = SetRegistryValue(HKEY_LOCAL_MACHINE,
         L"SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
-        L"MTU", mtu);
+        L"MTU", OPTIMAL_MTU);
     
     if (success) {
-        Utils::PrintSuccess("MTU optimized to 1500");
+        Utils::PrintSuccess("MTU optimized to " + std::to_string(OPTIMAL_MTU));
     }
     
     return success;
@@ -343,10 +342,9 @@ bool NetworkOptimizer::OptimizeMTU() {
 bool NetworkOptimizer::SetReceiveWindowSize() {
     Utils::PrintInfo("Setting TCP receive window size...");
     
-    DWORD windowSize = 65535;
     bool success = SetRegistryValue(HKEY_LOCAL_MACHINE,
         L"SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters",
-        L"TcpWindowSize", windowSize);
+        L"TcpWindowSize", OPTIMAL_TCP_WINDOW_SIZE);
     
     if (success) {
         Utils::PrintSuccess("TCP window size optimized");
@@ -359,7 +357,8 @@ void NetworkOptimizer::DisplayNetworkStatus() {
     std::cout << "\n=== Network Status ===" << std::endl;
     std::cout << "TCP optimizations applied" << std::endl;
     std::cout << "Nagle's algorithm: Disabled" << std::endl;
-    std::cout << "TCP Window Size: 65535" << std::endl;
+    std::cout << "TCP Window Size: " << OPTIMAL_TCP_WINDOW_SIZE << std::endl;
+    std::cout << "MTU: " << OPTIMAL_MTU << std::endl;
 }
 
 bool NetworkOptimizer::SetRegistryValue(HKEY hKey, const std::wstring& subKey,

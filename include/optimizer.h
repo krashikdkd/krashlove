@@ -6,6 +6,10 @@
 
 namespace KrashLove {
 
+// Network optimization constants
+constexpr DWORD OPTIMAL_MTU = 1500;
+constexpr DWORD OPTIMAL_TCP_WINDOW_SIZE = 65535;
+
 // System Cleanup Module
 class SystemCleanup {
 public:
